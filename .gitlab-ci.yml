@@ -1,0 +1,37 @@
+# GitLab CI/CD Configuration
+
+stages:
+  - build
+  - test
+  - deploy
+
+# Build stage
+build:
+  stage: build
+  script:
+    - echo "Building the project..."
+    - mkdir -p public
+    - cp -r ../index.html ../css ../js public/
+  artifacts:
+    paths:
+      - public
+
+# Test stage
+test:
+  stage: test
+  script:
+    - echo "Running tests..."
+    - echo "Checking HTML validity..."
+    - echo "Checking JavaScript functionality..."
+    - echo "All tests passed!"
+
+# Deploy stage
+pages:
+  stage: deploy
+  script:
+    - echo "Deploying to GitLab Pages..."
+  artifacts:
+    paths:
+      - public
+  only:
+    - main

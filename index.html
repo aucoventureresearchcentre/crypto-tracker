@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>加密货币交易监控系统</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>加密货币交易监控系统</h1>
+            <nav>
+                <ul>
+                    <li><a href="#dashboard" class="active" data-i18n="nav_dashboard">仪表盘</a></li>
+                    <li><a href="#alerts" data-i18n="nav_alerts">警报</a></li>
+                    <li><a href="#transactions" data-i18n="nav_transactions">交易</a></li>
+                    <li><a href="#wallets" data-i18n="nav_wallets">钱包</a></li>
+                    <li><a href="#settings" data-i18n="nav_settings">设置</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section id="dashboard" class="container section active">
+            <h2 data-i18n="dashboard_title">仪表盘</h2>
+            <div class="dashboard-grid">
+                <div class="card">
+                    <h3 data-i18n="active_alerts">活跃警报</h3>
+                    <div class="alert-count">3</div>
+                    <a href="#alerts" class="btn" data-i18n="view_details">查看详情</a>
+                </div>
+                <div class="card">
+                    <h3 data-i18n="monitored_wallets">监控钱包</h3>
+                    <div class="wallet-count">12</div>
+                    <a href="#wallets" class="btn" data-i18n="manage_wallets">管理钱包</a>
+                </div>
+                <div class="card">
+                    <h3 data-i18n="todays_transactions">今日交易</h3>
+                    <div class="transaction-count">28</div>
+                    <a href="#transactions" class="btn" data-i18n="view_details">查看详情</a>
+                </div>
+                <div class="card">
+                    <h3 data-i18n="system_status">系统状态</h3>
+                    <div class="status-indicator online" data-i18n="online">在线</div>
+                </div>
+            </div>
+            
+            <div class="chart-container">
+                <h3 data-i18n="transaction_distribution">交易金额分布</h3>
+                <canvas id="transactionChart"></canvas>
+            </div>
+            
+            <div class="recent-alerts">
+                <h3 data-i18n="recent_alerts">最近警报</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th data-i18n="time">时间</th>
+                            <th data-i18n="type">类型</th>
+                            <th data-i18n="amount">金额</th>
+                            <th data-i18n="source">来源</th>
+                            <th data-i18n="destination">目标</th>
+                            <th data-i18n="status">状态</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="high-alert">
+                            <td>2025-03-11 08:42:15</td>
+                            <td data-i18n="large_transaction">大额转账</td>
+                            <td>750,000 BTC</td>
+                            <td>0x7a23...</td>
+                            <td>0x9b45...</td>
+                            <td data-i18n="tracking">追踪中</td>
+                        </tr>
+                        <tr class="medium-alert">
+                            <td>2025-03-11 07:30:22</td>
+                            <td data-i18n="split_transaction">分散转出</td>
+                            <td>520,000 ETH</td>
+                            <td>0x3f67...</td>
+                            <td>多个地址</td>
+                            <td data-i18n="locked">已锁定</td>
+                        </tr>
+                        <tr class="high-alert">
+                            <td>2025-03-10 23:15:47</td>
+                            <td data-i18n="large_transaction">大额转账</td>
+                            <td>1,200,000 USDT</td>
+                            <td>0x2d91...</td>
+                            <td>0x8c32...</td>
+                            <td data-i18n="resolved">已解决</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="alerts" class="container section">
+            <h2>警报中心</h2>
+            <div class="filter-controls">
+                <div class="search-box">
+                    <input type="text" placeholder="搜索警报...">
+                    <button><i class="search-icon"></i></button>
+                </div>
+                <div class="filter-options">
+                    <select>
+                        <option>所有类型</option>
+                        <option>大额转账</option>
+                        <option>分散转出</option>
+                        <option>可疑地址</option>
+                    </select>
+                    <select>
+                        <option>所有状态</option>
+                        <option>追踪中</option>
+                        <option>已锁定</option>
+                        <option>已解决</option>
+                    </select>
+                    <button class="btn">应用筛选</button>
+                </div>
+            </div>
+            
+            <div class="alerts-list">
+                <div class="alert-item high-priority">
+                    <div class="alert-header">
+                        <span class="alert-type">大额转账</span>
+                        <span class="alert-time">2025-03-11 08:42:15</span>
+                        <span class="alert-status">追踪中</span>
+                    </div>
+                    <div class="alert-details">
+                        <p><strong>金额:</strong> 750,000 BTC</p>
+                        <p><strong>来源钱包:</strong> 0x7a23b6f8c9d1e0a4b5c6d7e8f9a0b1c2d3e4f5a6</p>
+                        <p><strong>目标钱包:</strong> 0x9b45c3d2e1f0a9b8c7d6e5f4a3b2c1d0e9f8a7b6</p>
+                        <p><strong>交易哈希:</strong> 0xf7e6d5c4b3a2918273645a6b7c8d9e0f1a2b3c4d</p>
+                    </div>
+                    <div class="alert-actions">
+                        <button class="btn">查看详情</button>
+                        <button class="btn">追踪资金</button>
+                        <button class="btn">标记为已解决</button>
+                    </div>
+                </div>
+                
+                <div class="alert-item medium-priority">
+                    <div class="alert-header">
+                        <span class="alert-type">分散转出</span>
+                        <span class="alert-time">2025-03-11 07:30:22</span>
+                        <span class="alert-status">已锁定</span>
+                    </div>
+                    <div class="alert-details">
+                        <p><strong>金额:</strong> 520,000 ETH</p>
+                        <p><strong>来源钱包:</strong> 0x3f67a9b8c7d6e5f4a3b2c1d0e9f8a7b6c5d4e3f2</p>
+                        <p><strong>目标钱包:</strong> 多个地址 (12)</p>
+                        <p><strong>交易哈希:</strong> 多个交易</p>
+                    </div>
+                    <div class="alert-actions">
+                        <button class="btn">查看详情</button>
+                        <button class="btn">追踪资金</button>
+                        <button class="btn">标记为已解决</button>
+                    </div>
+                </div>
+                
+                <div class="alert-item high-priority resolved">
+                    <div class="alert-header">
+                        <span class="alert-type">大额转账</span>
+                        <span class="alert-time">2025-03-10 23:15:47</span>
+                        <span class="alert-status">已解决</span>
+                    </div>
+                    <div class="alert-details">
+                        <p><strong>金额:</strong> 1,200,000 USDT</p>
+                        <p><strong>来源钱包:</strong> 0x2d91e0f8a7b6c5d4e3f2a1b0c9d8e7f6a5b4c3d2</p>
+                        <p><strong>目标钱包:</strong> 0x8c32d1e0f9a8b7c6d5e4f3a2b1c0d9e8f7a6b5c4</p>
+                        <p><strong>交易哈希:</strong> 0xa1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0</p>
+                        <p><strong>解决方案:</strong> 确认为交易所内部转账，非异常活动</p>
+                    </div>
+                    <div class="alert-actions">
+                        <button class="btn">查看详情</button>
+                        <button class="btn">重新打开</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="transactions" class="container section">
+            <h2>交易监控</h2>
+            <div class="filter-controls">
+                <div class="search-box">
+                    <input type="text" placeholder="搜索交易...">
+                    <button><i class="search-icon"></i></button>
+                </div>
+                <div class="filter-options">
+                    <select>
+                        <option>所有币种</option>
+                        <option>BTC</option>
+                        <option>ETH</option>
+                        <option>USDT</option>
+                    </select>
+                    <input type="date" placeholder="开始日期">
+                    <input type="date" placeholder="结束日期">
+                    <button class="btn">应用筛选</button>
+                </div>
+            </div>
+            
+            <div class="transactions-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>时间</th>
+                            <th>交易哈希</th>
+                            <th>来源</th>
+                            <th>目标</th>
+                            <th>币种</th>
+                            <th>金额</th>
+                            <th>状态</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>2025-03-11 08:42:15</td>
+                            <td>0xf7e6d5...</td>
+                            <td>0x7a23...</td>
+                            <td>0x9b45...</td>
+                            <td>BTC</td>
+                            <td>750,000</td>
+                            <td><span class="status warning">警报</span></td>
+                            <td><button class="btn-small">详情</button></td>
+                        </tr>
+                        <tr>
+                            <td>2025-03-11 08:30:42</td>
+                            <td>0xa2b3c4...</td>
+                            <td>0x5e6f...</td>
+                            <td>0x1d2e...</td>
+                            <td>ETH</td>
+                            <td>320,000</td>
+                            <td><span class="status normal">正常</span></td>
+                            <td><button class="btn-small">详情</button></td>
+                        </tr>
+                        <tr>
+                            <td>2025-03-11 08:15:37</td>
+                            <td>0xc4d5e6...</td>
+                            <td>0x8f9g...</td>
+                            <td>0x3h4i...</td>
+                            <td>BTC</td>
+                            <td>125,000</td>
+                            <td><span class="status normal">正常</span></td>
+                            <td><button class="btn-small">详情</button></td>
+                        </tr>
+                        <tr>
+                            <td>2025-03-11 08:10:05</td>
+                            <td>0xe5f6g7...</td>
+                            <td>0x2j3k...</td>
+                            <td>0x7l8m...</td>
+                            <td>USDT</td>
+                            <td>2,500,000</td>
+                            <td><span class="status warning">警报</span></td>
+                            <td><button class="btn-small">详情</button></td>
+                        </tr>
+                        <tr>
+                            <td>2025-03-11 07:55:19</td>
+                            <td>0xg6h7i8...</td>
+                            <td>0x4n5o...</td>
+                            <td>0x9p0q...</td>
+                            <td>ETH</td>
+                            <td>85,000</td>
+                            <td><span class="status normal">正常</span></td>
+                            <td><button class="btn-small">详情</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="wallets" class="container section">
+            <h2>钱包管理</h2>
+            <div class="wallet-controls">
+                <button class="btn">添加钱包</button>
+                <button class="btn">批量导入</button>
+                <div class="search-box">
+                    <input type="text" placeholder="搜索钱包...">
+                    <button><i class="search-icon"></i></button>
+                </div>
+            </div>
+            
+            <div class="wallets-grid">
+                <div class="wallet-card">
+                    <div class="wallet-header">
+                        <h3>比特币钱包 #1</h3>
+                        <span class="wallet-balance">1,250,000 BTC</span>
+                    </div>
+                    <div class="wallet-details">
+                        <p><strong>地址:</strong> 0x7a23b6f8c9d1e0a4b5c6d7e8f9a0b1c2d3e4f5a6</p>
+                        <p><strong>标签:</strong> 交易所热钱包</p>
+                        <p><strong>监控状态:</strong> 活跃</p>
+                        <p><strong>最后交易:</strong> 2025-03-11 08:42:15</p>
+                    </div>
+                    <div class="wallet-actions">
+                        <button class="btn">查看交易</button>
+                        <button class="btn">编辑</button>
+                        <button class="btn">移除</button>
+                    </div>
+                </div>
+                
+                <div class="wallet-card">
+                    <div class="wallet-header">
+                        <h3>以太坊钱包 #1</h3>
+                        <span class="wallet-balance">850,000 ETH</span>
+                    </div>
+                    <div class="wallet-details">
+                        <p><strong>地址:</strong> 0x3f67a9b8c7d6e5f4a3b2c1d0e9f8a7b6c5d4e3f2</p>
+                        <p><strong>标签:</strong> 鲸鱼钱包</p>
+                        <p><strong>监控状态:</strong> 活跃</p>
+                        <p><strong>最后交易:</strong> 2025-03-11 07:30:22</p>
+                    </div>
+                    <div class="wallet-actions">
+                        <button class="btn">查看交易</button>
+                        <button class="btn">编辑</button>
+                        <button class="btn">移除</button>
+                    </div>
+                </div>
+                
+                <div class="wallet-card">
+                    <div class="wallet-header">
+                        <h3>USDT钱包 #1</h3>
+                        <span class="wallet-balance">5,000,000 USDT</span>
+                    </div>
+                    <div class="wallet-details">
+                        <p><strong>地址:</strong> 0x2d91e0f8a7b6c5d4e3f2a1b0c9d8e7f6a5b4c3d2</p>
+                        <p><strong>标签:</strong> 投资基金</p>
+                        <p><strong>监控状态:</strong> 活跃</p>
+                        <p><strong>最后交易:</strong> 2025-03-10 23:15:47</p>
+                    </div>
+                    <div class="wallet-actions">
+                        <button class="btn">查看交易</button>
+                        <button class="btn">编辑</button>
+                        <button class="btn">移除</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="settings" class="container section">
+            <h2>系统设置</h2>
+            <div class="settings-grid">
+                <div class="settings-card">
+                    <h3>警报设置</h3>
+                    <div class="settings-form">
+                        <div class="form-group">
+                            <label>大额转账阈值 (BTC)</label>
+                            <input type="number" value="500000">
+                        </div>
+                        <div class="form-group">
+                            <label>大额转账阈值 (ETH)</label>
+                            <input type="number" value="500000">
+                        </div>
+                        <div class="form-group">
+                            <label>大额转账阈值 (USDT)</label>
+                            <input type="number" value="500000">
+                        </div>
+                        <div class="form-group">
+                            <label>分散转出检测</label>
+                            <select>
+                                <option>启用</option>
+                                <option>禁用</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>分散转出阈值</label>
+                            <input type="number" value="5">
+                            <span class="help-text">在短时间内转出到多少个不同地址触发警报</span>
+                        </div>
+                        <button class="btn">保存设置</button>
+                    </div>
+                </div>
+                
+                <div class="settings-card">
+                    <h3>通知设置</h3>
+                    <div class="settings-form">
+                        <div class="form-group">
+                            <label>电子邮件通知</label>
+                            <select>
+                                <option>启用</option>
+                                <option>禁用</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>通知邮箱</label>
+                            <input type="email" value="admin@example.com">
+                        </div>
+                        <div class="form-group">
+                            <label>短信通知</label>
+                            <select>
+                                <option>启用</option>
+                                <option>禁用</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>通知手机号</label>
+                            <input type="tel" value="+1234567890">
+                        </div>
+                        <div class="form-group">
+                            <label>Webhook通知</label>
+                            <select>
+                                <option>启用</option>
+                                <option>禁用</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Webhook URL</label>
+                            <input type="url" value="https://example.com/webhook">
+                        </div>
+                        <button class="btn">保存设置</button>
+                    </div>
+                </div>
+                
+                <div class="settings-card">
+                    <h3>API设置</h3>
+                    <div class="settings-form">
+                        <div class="form-group">
+                            <label>区块链API提供商</label>
+                            <select>
+                                <option>Blockchain.info</option>
+                                <option>Etherscan</option>
+                                <option>自定义</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>API密钥</label>
+                            <input type="password" value="••••••••••••••••">
+                            <button class="btn-small">显示</button>
+                        </div>
+                        <div class="form-group">
+                            <label>API请求频率 (秒)</label>
+                            <input type="number" value="60">
+                        </div>
+                        <div class="form-group">
+                            <label>自定义API端点</label>
+                            <input type="url" value="">
+                            <span class="help-text">仅在选择"自定义"提供商时使用</span>
+                        </div>
+                        <button class="btn">保存设置</button>
+                        <button class="btn">测试连接</button>
+                    </div>
+                </div>
+                
+                <div class="settings-card">
+                    <h3>安全设置</h3>
+                    <div class="settings-form">
+                        <div class="form-group">
+                            <label>双因素认证</label>
+                            <select>
+                                <option>启用</option>
+                                <option>禁用</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>会话超时 (分钟)</label>
+                            <input type="number" value="30">
+                        </div>
+                        <div class="form-group">
+                            <label>IP白名单</label>
+                            <textarea>127.0.0.1
+192.168.1.1</textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>登录尝试限制</label>
+                            <input type="number" value="5">
+                        </div>
+                        <button class="btn">保存设置</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 加密货币交易监控系统 | <a href="#">隐私政策</a> | <a href="#">使用条款</a></p>
+        </div>
+    </footer>
+
+    <script src="js/script.js"></script>
+    <script src="js/blockchain-monitor.js"></script>
+    <script src="js/alert-system.js"></script>
+    <script src="js/transaction-tracker.js"></script>
+    <script src="js/security-module.js"></script>
+    <script src="js/language-switcher.js"></script>
+</body>
+</html>
